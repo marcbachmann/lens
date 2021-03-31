@@ -82,7 +82,7 @@ export function createInstallChartTab(chart: HelmChart, tabParams: Partial<IDock
     kind: TabKind.INSTALL_CHART,
     title: `Helm Install: ${repo}/${name}`,
     ...tabParams
-  }, false);
+  });
 
   installChartStore.setData(tab.id, {
     name,

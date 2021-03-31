@@ -73,7 +73,7 @@ export class LogTabStore extends DockTabStore<LogTabData> {
     dockStore.createTab({
       kind: TabKind.POD_LOGS,
       ...tabParams
-    }, false);
+    });
   }
 
   private createLogsTab(title: string, data: LogTabData) {

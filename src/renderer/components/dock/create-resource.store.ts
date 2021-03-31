@@ -66,7 +66,7 @@ export function createResourceTab(tabParams: Partial<IDockTab> = {}) {
     kind: TabKind.CREATE_RESOURCE,
     title: "Create resource",
     ...tabParams
-  });
+  }, true);
 }
 
 export function isCreateResourceTab(tab: IDockTab) {
