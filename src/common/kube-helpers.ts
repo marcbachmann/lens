@@ -48,7 +48,14 @@ function loadToOptions(rawYaml: string): any {
 }
 
 export function loadConfig(pathOrContent?: string): KubeConfig {
-  const content = fse.pathExistsSync(pathOrContent) ? readResolvedPathSync(pathOrContent) : pathOrContent;
+  return loadConfigFromString(
+    fse.pathExistsSync(pathOrContent)
+      ? readResolvedPathSync(pathOrContent)
+      : pathOrContent
+  );
+}
+
+export function loadConfigFromString(content: string): KubeConfig {
   const options = loadToOptions(content);
   const kc = new KubeConfig();
 

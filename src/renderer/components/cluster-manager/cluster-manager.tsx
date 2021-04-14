@@ -17,6 +17,7 @@ import { Extensions, extensionsRoute } from "../+extensions";
 import { getMatchedClusterId } from "../../navigation";
 import { HotbarMenu } from "../hotbar/hotbar-menu";
 import { EntitySettings, entitySettingsRoute } from "../+entity-settings";
+import { SyncKubeconfig, syncKubeconfigRoute } from "../+sync-kubeconfig";
 
 @observer
 export class ClusterManager extends React.Component {
@@ -57,6 +58,7 @@ export class ClusterManager extends React.Component {
             <Route component={Preferences} {...preferencesRoute} />
             <Route component={Extensions} {...extensionsRoute} />
             <Route component={AddCluster} {...addClusterRoute} />
+            <Route component={SyncKubeconfig} {...syncKubeconfigRoute} />
             <Route component={ClusterView} {...clusterViewRoute} />
             <Route component={EntitySettings} {...entitySettingsRoute} />
             {globalPageRegistry.getItems().map(({ url, components: { Page } }) => {

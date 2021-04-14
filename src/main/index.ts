@@ -32,11 +32,14 @@ import { IpcRendererNavigationEvents } from "../renderer/navigation/events";
 import { CatalogPusher } from "./catalog-pusher";
 import { catalogEntityRegistry } from "../common/catalog-entity-registry";
 import { hotbarStore } from "../common/hotbar-store";
+import { KubeconfigSyncManager } from "./catalog-sources/kubeconfig-sync.source";
+import { kubeconfigSyncStore } from "../common/kubeconfig-sync-store";
 
 const workingDir = path.join(app.getPath("appData"), appName);
 let proxyPort: number;
 let proxyServer: LensProxy;
 let clusterManager: ClusterManager;
+let kubeconfigSyncManager: KubeconfigSyncManager;
 let windowManager: WindowManager;
 
 app.setName(appName);
@@ -110,6 +113,7 @@ app.on("ready", async () => {
     userStore.load(),
     clusterStore.load(),
     hotbarStore.load(),
+    kubeconfigSyncStore.load(),
     extensionsStore.load(),
     filesystemProvisionerStore.load(),
   ]);
@@ -126,6 +130,10 @@ app.on("ready", async () => {
 
   // create cluster manager
   clusterManager = ClusterManager.getInstance<ClusterManager>(proxyPort);
+
+  // create kubeconfig sync manager
+  kubeconfigSyncManager = KubeconfigSyncManager.getInstance<KubeconfigSyncManager>();
+  kubeconfigSyncManager.startSync(proxyPort);
 
   // run proxy
   try {
@@ -228,6 +236,7 @@ app.on("will-quit", (event) => {
   logger.info("APP:QUIT");
   appEventBus.emit({name: "app", action: "close"});
 
+  kubeconfigSyncManager?.stopSync();
   clusterManager?.stop(); // close cluster connections
 
   if (blockQuit) {

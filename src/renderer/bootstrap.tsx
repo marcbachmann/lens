@@ -19,6 +19,7 @@ import { filesystemProvisionerStore } from "../main/extension-filesystem";
 import { App } from "./components/app";
 import { LensApp } from "./lens-app";
 import { themeStore } from "./theme.store";
+import { kubeconfigSyncStore } from "../common/kubeconfig-sync-store";
 
 /**
  * If this is a development buid, wait a second to attach
@@ -58,6 +59,7 @@ export async function bootstrap(App: AppComponent) {
     userStore.load(),
     hotbarStore.load(),
     clusterStore.load(),
+    kubeconfigSyncStore.load(),
     extensionsStore.load(),
     filesystemProvisionerStore.load(),
     themeStore.init(),

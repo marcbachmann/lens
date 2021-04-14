@@ -5,6 +5,7 @@ import { CatalogCategory, CatalogEntity, CatalogEntityActionContext, CatalogEnti
 import { clusterDisconnectHandler } from "../cluster-ipc";
 import { clusterStore } from "../cluster-store";
 import { requestMain } from "../ipc";
+import { syncKubeconfigURL } from "../routes/sync-kubeconfig";
 
 export type KubernetesClusterSpec = {
   kubeconfigPath: string;
@@ -106,8 +107,14 @@ export class KubernetesClusterCategory extends EventEmitter implements CatalogCa
       ctx.menuItems.push({
         icon: "text_snippet",
         title: "Add from kubeconfig",
-        onClick: async () => {
+        onClick: () => {
           ctx.navigate("/add-cluster");
+        }
+      }, {
+        icon: "source",
+        title: "Sync kubeconfig",
+        onClick: () => {
+          ctx.navigate(syncKubeconfigURL());
         }
       });
     });

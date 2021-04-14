@@ -1,4 +1,5 @@
 // Common utils (main OR renderer)
+import * as iter from "./iter";
 
 export const noop: any = () => { /* empty */ };
 
@@ -19,3 +20,4 @@ export * from "./downloadFile";
 export * from "./escapeRegExp";
 export * from "./tar";
 export * from "./type-narrowing";
+export { iter };

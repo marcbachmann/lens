@@ -85,7 +85,7 @@ export class Cluster implements ClusterModel, ClusterState {
   whenReady = when(() => this.ready);
 
   /**
-   * Is cluster object initializinng on-going
+   * Is cluster object initializing on-going
    *
    * @observable
    */
@@ -229,6 +229,10 @@ export class Cluster implements ClusterModel, ClusterState {
    */
   @computed get name() {
     return this.preferences.clusterName || this.contextName;
+  }
+
+  @computed get distribution(): string {
+    return this.metadata.distribution?.toString() || "unknown";
   }
 
   /**

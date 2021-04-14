@@ -11,7 +11,7 @@ import { AceEditor } from "../ace-editor";
 import { Button } from "../button";
 import { Icon } from "../icon";
 import { kubeConfigDefaultPath, loadConfig, splitConfig, validateConfig, validateKubeConfig } from "../../../common/kube-helpers";
-import { ClusterModel, ClusterStore, clusterStore } from "../../../common/cluster-store";
+import { ClusterStore, clusterStore } from "../../../common/cluster-store";
 import { v4 as uuid } from "uuid";
 import { navigate } from "../../navigation";
 import { userStore } from "../../../common/user-store";
@@ -132,19 +132,16 @@ export class AddCluster extends React.Component {
   };
 
   @action
-  addClusters = () => {
-    let newClusters: ClusterModel[] = [];
-
+  addClusters = (): void => {
     try {
       if (!this.selectedContexts.length) {
-        this.error = "Please select at least one cluster context";
-
-        return;
+        return void (this.error = "Please select at least one cluster context");
       }
+
       this.error = "";
       this.isWaiting = true;
       appEventBus.emit({ name: "cluster-add", action: "click" });
-      newClusters = this.selectedContexts.filter(context => {
+      const newClusters = this.selectedContexts.filter(context => {
         try {
           const kubeConfig = this.kubeContexts.get(context);
 
