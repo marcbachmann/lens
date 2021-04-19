@@ -6,7 +6,7 @@ import { action, computed, observable, reaction, toJS } from "mobx";
 import { BaseStore } from "./base-store";
 import migrations from "../migrations/user-store";
 import { getAppVersion } from "./utils/app-version";
-import { kubeConfigDefaultPath, loadConfig } from "./kube-helpers";
+import { kubeConfigDefaultPath, loadConfigFromString } from "./kube-helpers";
 import { appEventBus } from "./event-bus";
 import logger from "../main/logger";
 import path from "path";
@@ -75,7 +75,7 @@ export class UserStore extends BaseStore<UserStoreModel> {
 
       // open at system start-up
       reaction(() => this.preferences.openAtLogin, openAtLogin => {
-        app.setLoginItemSettings({ 
+        app.setLoginItemSettings({
           openAtLogin,
           openAsHidden: true,
           args: ["--hidden"]
@@ -136,7 +136,8 @@ export class UserStore extends BaseStore<UserStoreModel> {
 
       if (kubeConfig) {
         this.newContexts.clear();
-        loadConfig(kubeConfig).getContexts()
+        loadConfigFromString(kubeConfig)
+          .getContexts()
           .filter(ctx => ctx.cluster)
           .filter(ctx => !this.seenContexts.has(ctx.name))
           .forEach(ctx => this.newContexts.add(ctx.name));
