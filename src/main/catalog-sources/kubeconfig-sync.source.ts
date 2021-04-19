@@ -149,6 +149,7 @@ function computeDiff(buf: Buffer, source: RootSource, port: number, filePath: st
 
           const entity = catalogEntityFromCluster(cluster);
 
+          entity.metadata.labels.KUBECONFIG_SYNC = filePath;
           source.set(contextName, [cluster, entity]);
 
           logger.debug("[KUBECONFIG-SYNC]: Added new cluster from sync", { filePath, contextName });
